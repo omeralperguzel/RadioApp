@@ -1,11 +1,11 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
-const HomeScreen: React.FC<{ navigate: (screen: 'Home' | 'Details') => void }> = ({ navigate }) => {
+const Home: React.FC<{ navigate?: (screen: 'Home' | 'Details') => void }> = ({ navigate }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Home Screen</Text>
-      <TouchableOpacity style={styles.button} onPress={() => navigate('Details')}>
+      <TouchableOpacity style={styles.button} onPress={() => navigate && navigate('Details')}>
         <Text style={styles.buttonText}>Go to Details</Text>
       </TouchableOpacity>
     </View>
@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     marginBottom: 20,
-    fontFamily: 'DMBold',
+    fontFamily: 'DMBold', // Ensure this matches your linked font
   },
   button: {
     padding: 10,
@@ -30,8 +30,8 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: '#FFFFFF',
-    fontFamily: 'DMMedium',
+    fontFamily: 'DMMedium', // Ensure this matches your linked font
   },
 });
 
-export default HomeScreen;
+export default Home;
