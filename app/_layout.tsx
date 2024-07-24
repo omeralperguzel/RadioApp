@@ -5,16 +5,16 @@ import * as Font from 'expo-font';
 
 SplashScreen.preventAutoHideAsync();
 
-const App: React.FC = () => {
+const Layout: React.FC = () => {
   const [fontsLoaded, setFontsLoaded] = useState(false);
   const [currentScreen, setCurrentScreen] = useState<'Home' | 'Details'>('Home');
 
   useEffect(() => {
     const loadFonts = async () => {
       await Font.loadAsync({
-        'DMBold': require('./assets/fonts/DMSans-Bold.ttf'),
-        'DMMedium': require('./assets/fonts/DMSans-Medium.ttf'),
-        'DMRegular': require('./assets/fonts/DMSans-Regular.ttf'),
+        'DMBold': require('../assets/fonts/DMSans-Bold.ttf'),
+        'DMMedium': require('../assets/fonts/DMSans-Medium.ttf'),
+        'DMRegular': require('../assets/fonts/DMSans-Regular.ttf'),
       });
       setFontsLoaded(true);
       SplashScreen.hideAsync();
@@ -85,4 +85,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+export default Layout;

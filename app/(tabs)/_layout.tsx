@@ -5,16 +5,15 @@ import * as Font from 'expo-font';
 
 SplashScreen.preventAutoHideAsync();
 
-const App: React.FC = () => {
+const Layout: React.FC = () => {
   const [fontsLoaded, setFontsLoaded] = useState(false);
-  const [currentScreen, setCurrentScreen] = useState<'Home' | 'Details'>('Home');
 
   useEffect(() => {
     const loadFonts = async () => {
       await Font.loadAsync({
-        'DMBold': require('./assets/fonts/DMSans-Bold.ttf'),
-        'DMMedium': require('./assets/fonts/DMSans-Medium.ttf'),
-        'DMRegular': require('./assets/fonts/DMSans-Regular.ttf'),
+        'DMBold': require('../assets/fonts/DMSans-Bold.ttf'),
+        'DMMedium': require('../assets/fonts/DMSans-Medium.ttf'),
+        'DMRegular': require('../assets/fonts/DMSans-Regular.ttf'),
       });
       setFontsLoaded(true);
       SplashScreen.hideAsync();
@@ -26,38 +25,19 @@ const App: React.FC = () => {
     return <ActivityIndicator />;
   }
 
-  const navigate = (screen: 'Home' | 'Details') => {
-    setCurrentScreen(screen);
-  };
-
   return (
     <View style={styles.container}>
-      {currentScreen === 'Home' ? (
-        <HomeScreen navigate={navigate} />
-      ) : (
-        <DetailsScreen navigate={navigate} />
-      )}
+      <HomeScreen />
     </View>
   );
 };
 
-const HomeScreen: React.FC<{ navigate: (screen: 'Home' | 'Details') => void }> = ({ navigate }) => {
+const HomeScreen: React.FC = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Home Screen</Text>
-      <TouchableOpacity style={styles.button} onPress={() => navigate('Details')}>
+      <TouchableOpacity style={styles.button} onPress={() => { /* Navigate to Details */ }}>
         <Text style={styles.buttonText}>Go to Details</Text>
-      </TouchableOpacity>
-    </View>
-  );
-};
-
-const DetailsScreen: React.FC<{ navigate: (screen: 'Home' | 'Details') => void }> = ({ navigate }) => {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Details Screen</Text>
-      <TouchableOpacity style={styles.button} onPress={() => navigate('Home')}>
-        <Text style={styles.buttonText}>Go to Home</Text>
       </TouchableOpacity>
     </View>
   );
@@ -85,4 +65,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+export default Layout;
