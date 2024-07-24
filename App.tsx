@@ -3,6 +3,7 @@ import { Button, View, Text, Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 
 function HomeScreen({ navigation }) {
   const [count, setCount] = React.useState(0);
@@ -74,7 +75,7 @@ function SettingsScreen({ navigation }) {
 function LogoTitle() {
   return (
     <Image
-      style={{ width: 50, height: 50 }}
+      style={{ width: 50, height: 50, alignItems: 'center' }}
       source={require('./radioicon.png')}
     />
   );
@@ -84,12 +85,13 @@ const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 const SettingsStack = createNativeStackNavigator();
 const HomeStack = createNativeStackNavigator();
+//const Drawer = createDrawerNavigator();
 
 export default function App() {
   return (
     <NavigationContainer>
       <Tab.Navigator screenOptions={{ headerShown: false }}>
-        <Tab.Screen name="First">
+        <Tab.Screen name="Setting">
           {() => (
             <SettingsStack.Navigator>
               <SettingsStack.Screen
@@ -100,7 +102,7 @@ export default function App() {
             </SettingsStack.Navigator>
           )}
         </Tab.Screen>
-        <Tab.Screen name="Second">
+        <Tab.Screen name="Homepage">
           {() => (
             <Stack.Navigator initialRouteName="Home">
             <Stack.Screen
