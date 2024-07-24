@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Button, View, Text, Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 function HomeScreen({ navigation }) {
   const [count, setCount] = React.useState(0);
@@ -46,6 +47,30 @@ function DetailsScreen({ navigation }) {
   );
 }
 
+function ProfileScreen({ navigation }) {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text>Profile Screen</Text>
+      <Button
+        title="Go to Settings"
+        onPress={() => navigation.navigate('Settings')}
+      />
+    </View>
+  );
+}
+
+function SettingsScreen({ navigation }) {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text>Settings Screen</Text>
+      <Button
+        title="Go to Profile"
+        onPress={() => navigation.navigate('Profile')}
+      />
+    </View>
+  );
+}
+
 function LogoTitle() {
   return (
     <Image
@@ -56,32 +81,49 @@ function LogoTitle() {
 }
 
 const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
+const SettingsStack = createNativeStackNavigator();
+const HomeStack = createNativeStackNavigator();
 
-function App() {
+export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-      <Stack.Screen
-          name="Home"
-          component={HomeScreen}
-          options={({ navigation, route }) => ({
-            headerTitle: (props) => <LogoTitle {...props} />,
-            // Add a placeholder button without the `onPress` to avoid flicker
-            headerRight: () => <Button title="Update count" />,
-          })}
-        />
-        <Stack.Screen 
-        name="Details" 
-        component={DetailsScreen} 
-        options={{
-          headerBackTitle: 'Custom Back',
-          headerBackTitleStyle: { fontSize: 30 },
-        }}
-        />
-      </Stack.Navigator>
-      
+      <Tab.Navigator screenOptions={{ headerShown: false }}>
+        <Tab.Screen name="First">
+          {() => (
+            <SettingsStack.Navigator>
+              <SettingsStack.Screen
+                name="Settings"
+                component={SettingsScreen}
+              />
+              <SettingsStack.Screen name="Profile" component={ProfileScreen} />
+            </SettingsStack.Navigator>
+          )}
+        </Tab.Screen>
+        <Tab.Screen name="Second">
+          {() => (
+            <Stack.Navigator initialRouteName="Home">
+            <Stack.Screen
+                name="Home"
+                component={HomeScreen}
+                options={({ navigation, route }) => ({
+                  headerTitle: (props) => <LogoTitle {...props} />,
+                  // Add a placeholder button without the `onPress` to avoid flicker
+                  headerRight: () => <Button title="Update count" />,
+                })}
+              />
+              <Stack.Screen 
+              name="Details" 
+              component={DetailsScreen} 
+              options={{
+                headerBackTitle: 'Custom Back',
+                headerBackTitleStyle: { fontSize: 30 },
+              }}
+              />
+            </Stack.Navigator>
+          )}
+        </Tab.Screen>
+      </Tab.Navigator>
     </NavigationContainer>
   );
 }
-
-export default App;
