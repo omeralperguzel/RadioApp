@@ -1,34 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
-import * as SplashScreen from 'expo-splash-screen';
-import * as Font from 'expo-font';
-
-SplashScreen.preventAutoHideAsync();
+import SplashScreen from 'react-native-splash-screen';
 
 const App: React.FC = () => {
-  const [fontsLoaded, setFontsLoaded] = useState(false);
   const [currentScreen, setCurrentScreen] = useState<'Home' | 'Details'>('Home');
-
-  useEffect(() => {
-    const loadFonts = async () => {
-      await Font.loadAsync({
-        'DMBold': require('./assets/fonts/DMSans-Bold.ttf'),
-        'DMMedium': require('./assets/fonts/DMSans-Medium.ttf'),
-        'DMRegular': require('./assets/fonts/DMSans-Regular.ttf'),
-      });
-      setFontsLoaded(true);
-      SplashScreen.hideAsync();
-    };
-    loadFonts();
-  }, []);
-
-  if (!fontsLoaded) {
-    return <ActivityIndicator />;
-  }
 
   const navigate = (screen: 'Home' | 'Details') => {
     setCurrentScreen(screen);
   };
+
+  SplashScreen.hide();
 
   return (
     <View style={styles.container}>
@@ -72,7 +53,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     marginBottom: 20,
-    fontFamily: 'DMBold',
+    fontFamily: 'DMBold', // Use the font family name as specified in the font file
   },
   button: {
     padding: 10,
@@ -81,7 +62,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: '#FFFFFF',
-    fontFamily: 'DMMedium',
+    fontFamily: 'DMMedium', // Use the font family name as specified in the font file
   },
 });
 
