@@ -85,47 +85,65 @@ const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 const SettingsStack = createNativeStackNavigator();
 const HomeStack = createNativeStackNavigator();
-//const Drawer = createDrawerNavigator();
+const Drawer = createDrawerNavigator();
 
-export default function App() {
-  return (
-    <NavigationContainer>
-      <Tab.Navigator screenOptions={{ headerShown: false }}>
-        <Tab.Screen name="Setting">
-          {() => (
-            <SettingsStack.Navigator>
-              <SettingsStack.Screen
-                name="Settings"
-                component={SettingsScreen}
-              />
-              <SettingsStack.Screen name="Profile" component={ProfileScreen} />
-            </SettingsStack.Navigator>
-          )}
-        </Tab.Screen>
-        <Tab.Screen name="Homepage">
-          {() => (
-            <Stack.Navigator initialRouteName="Home">
-            <Stack.Screen
-                name="Home"
-                component={HomeScreen}
-                options={({ navigation, route }) => ({
-                  headerTitle: (props) => <LogoTitle {...props} />,
-                  // Add a placeholder button without the `onPress` to avoid flicker
-                  headerRight: () => <Button title="Update count" />,
-                })}
-              />
-              <Stack.Screen 
-              name="Details" 
-              component={DetailsScreen} 
-              options={{
-                headerBackTitle: 'Custom Back',
-                headerBackTitleStyle: { fontSize: 30 },
-              }}
-              />
-            </Stack.Navigator>
-          )}
-        </Tab.Screen>
-      </Tab.Navigator>
-    </NavigationContainer>
-  );
-}
+/*<NavigationContainer>
+      <Drawer.Navigator initialRouteName="Home">
+        <Drawer.Screen name="Home" component={HomeScreen} />
+        <Drawer.Screen name="Notifications" component={SettingsScreen} />
+      </Drawer.Navigator>
+    </NavigationContainer>*/
+
+    export default function App() {
+      return (
+        <NavigationContainer>
+          <Tab.Navigator screenOptions={{ headerShown: false }}>
+            <Tab.Screen name="Homepage" component={HomeStackNavigator} />
+            <Tab.Screen name="Setting" component={SettingsStackNavigator} />
+          </Tab.Navigator>
+        </NavigationContainer>
+      );
+    }
+    
+    function HomeStackNavigator() {
+      return (
+        <Stack.Navigator initialRouteName="Home">
+          <Stack.Screen
+            name="Home"
+            //component={HomeDrawerNavigator}
+            component={HomeScreen}
+            options={({ navigation }) => ({
+              headerTitle: (props) => <LogoTitle {...props} />,
+              headerRight: () => <Button title="Update count" />,
+            })}
+          />
+          <Stack.Screen 
+            name="Details" 
+            component={DetailsScreen} 
+            options={{
+              headerBackTitle: 'Custom Back',
+              headerBackTitleStyle: { fontSize: 30 },
+            }}
+          />
+        </Stack.Navigator>
+      );
+    }
+    
+    function HomeDrawerNavigator() {
+      return null;
+      /*return (
+        <Drawer.Navigator initialRouteName="HomeContent">
+          <Drawer.Screen name="HomeContent" component={HomeScreen} />
+          <Drawer.Screen name="Notifications" component={SettingsScreen} />
+        </Drawer.Navigator>
+      );*/
+    }
+    
+    function SettingsStackNavigator() {
+      return (
+        <SettingsStack.Navigator>
+          <SettingsStack.Screen name="Settings" component={SettingsScreen} />
+          <SettingsStack.Screen name="Profile" component={ProfileScreen} />
+        </SettingsStack.Navigator>
+      );
+    }
