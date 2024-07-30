@@ -12,6 +12,7 @@ project.ext.react = [
 ]
 
 //apply from: "../../node_modules/react-native/react.gradle"
+apply from: file("../../node_modules/react-native-vector-icons/fonts.gradle")
 
 def enableHermes = project.ext.react.get("enableHermes", false)
 
