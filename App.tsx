@@ -1,6 +1,6 @@
 import * as React from 'react';
 import 'react-native-gesture-handler'
-import { Button, View, Text, Image, StyleSheet } from 'react-native';
+import { Button, View, Text, Image, StyleSheet, FlatList } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -10,8 +10,10 @@ import {colors} from "./src/constants/colors.js";
 import Feather from "react-native-vector-icons/Feather";
 import HomeScreen2 from "./src/screen/HomeScreen";
 import Header from './src/components/Header.jsx';
-import { fontSize } from './src/constants/dimensions.js';
+import { fontSize, spacing } from './src/constants/dimensions.js';
 import { fontFamilies } from './src/constants/fonts.js';
+import ChannelCard from './src/components/ChannelCard.jsx';
+import ChannelCardWithCategory from './src/components/ChannelCardWithCategory.jsx';
 
 function HomeScreen({ navigation }) {
   const [count, setCount] = React.useState(0);
@@ -28,11 +30,23 @@ function HomeScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text style = {{color: "white"}}>Home Screen</Text>
-      <Text style = {{color: "white"}}>Count: {count}</Text>
+      <Text style = {{color: "white", alignItems: 'center', justifyContent: 'center'}}>Home Screen</Text>
+      <Text style = {{color: "white", alignItems: 'center', justifyContent: 'center'}}>Count: {count}</Text>
       <Button
         title="Go to Details"
         onPress={() => navigation.navigate('Details')}
+      />
+    </View>
+  );
+}
+
+function ListScreen({ navigation }) {
+  return (
+    <View style={styles.container}>
+      <FlatList 
+      data = {[1,2,3,4,5]} 
+      renderItem={ChannelCardWithCategory}
+      //contentContainerStyle={{paddingBottom: 400}}
       />
     </View>
   );
@@ -72,7 +86,7 @@ function ProfileScreen({ navigation }) {
 function SettingsScreen({ navigation }) {
   return (
     <View style={styles.container}>
-      <Text style = {{color: "white"}}>Settings Screen</Text>
+      <Text style = {{color: "white", alignItems: 'center', justifyContent: 'center'}}>Settings Screen</Text>
       <Button
         title="Go to Profile"
         onPress={() => navigation.navigate('Profile')}
@@ -118,13 +132,15 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.background,
     flex: 1,
-    alignItems: 'center', 
-    justifyContent: 'center' 
+    //alignItems: 'center', 
+    //justifyContent: 'center' 
   },
   headingText: {
     fontSize: fontSize.xlarge,
     color: colors.textPrimary,
     fontFamily: "Gilroy-Bold",
+    paddingVertical: spacing.medium,
+    paddingHorizontal: spacing.medium,
   }
 })
 
@@ -146,11 +162,16 @@ const styles = StyleSheet.create({
           <Tab.Navigator screenOptions={{ tabBarStyle: {
                 backgroundColor: colors.backgroundHeader,
               }, headerShown: false }}>
-            <Tab.Screen name="Homepage" component={HomeStackNavigator} options={{
+            <Tab.Screen name="Homepage" component={TestHomeStackNavigator} options={{
               tabBarIcon: ({ color, size }) => (
                 <Feather name="home" color={colors.iconPrimary} size={20} />
               )
               }} />
+            <Tab.Screen name="List" component={HomeStackNavigator} options={{
+              tabBarIcon: ({ color, size }) => (
+                <Feather name="home" color={colors.iconPrimary} size={20} />
+              )
+              }}/>
             <Tab.Screen name="Explore" component={HomeScreen2} options={{
               tabBarIcon: ({ color, size }) => (
                 <Feather name="map" color={colors.iconPrimary} size={20} />
@@ -166,7 +187,7 @@ const styles = StyleSheet.create({
       );
     }
     
-    function HomeStackNavigator() {
+    function TestHomeStackNavigator() {
       return (
         <Stack.Navigator initialRouteName="Home">
           <Stack.Screen
@@ -188,6 +209,24 @@ const styles = StyleSheet.create({
               headerBackTitle: 'Custom Back',
               headerBackTitleStyle: { fontSize: 30 },
             }}
+          />
+        </Stack.Navigator>
+      );
+    }
+
+    function HomeStackNavigator() {
+      return (
+        <Stack.Navigator initialRouteName="Home">
+          <Stack.Screen
+            name="Home"
+            component={ListScreen}
+            //component={HomeScreen}
+            options={({ navigation }) => ({
+              headerTitle: (props) => <LogoTitle {...props} />,
+              headerStyle: {
+                backgroundColor: colors.backgroundHeader,
+              },
+            })}
           />
         </Stack.Navigator>
       );

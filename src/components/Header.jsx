@@ -1,6 +1,5 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
-import { TouchableOpacity } from 'react-native-gesture-handler'
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import { Feather } from 'react-native-vector-icons/Feather'
 import { iconSizes, spacing } from '../constants/dimensions'
 import { colors } from '../constants/colors'
@@ -13,7 +12,7 @@ const Header = () => {
             </TouchableOpacity>
             <TouchableOpacity> 
               <Feather name="search" size={iconSizes.large} color={colors.iconPrimary} />
-              </TouchableOpacity>
+            </TouchableOpacity>
         </View>
     )
 }
