@@ -6,17 +6,18 @@ import { fontSize, iconSizes, spacing } from '../constants/dimensions';
 import { NextButton, PlayPauseButton, PreviousButton } from './PlayerControls';
 import { SlideInRight, useSharedValue } from 'react-native-reanimated';
 import {Slider} from "react-native-awesome-slider";
+import MovingText from './MovingText';
 
 const imageUrl = "https://cdn.wikirby.com/8/81/Kirby_JP_Twitter_Old_Icon.jpg";
 const FloatingPlayer = () => {
-    const progress = useSharedValue(30);
+    const progress = useSharedValue(0.30);
     const min = useSharedValue(0);
-    const max = useSharedValue(100);
+    const max = useSharedValue(1);
 
     return (
         <View>
             <View style={{zIndex: 1,}}>
-                <Slider style={styles.container}
+                <Slider style={styles.sliderContainer}
                 progress={progress}
                 minimumValue={min}
                 maximumValue={max}
@@ -33,12 +34,22 @@ const FloatingPlayer = () => {
                     borderRadius: 10,
                     backgroundColor: colors.backgroundPlayer,
                 }}
+                /*renderBubble={() => <View>
+                    <Text>This bubble is working</Text>
+                </View>}*/
+                renderThumb={() => {
+                    <View style = {{backgroundColor: "red"}}></View>;
+                }}
                 />
             </View>
             <TouchableOpacity style={styles.container} activeOpacity={0.85}>
             <Image source={{uri: imageUrl}} style={styles.coverImage}/>
             <View style = {styles.titleContainer}>
-                <Text style = {styles.title}>Channel Name</Text>
+                <MovingText 
+                text={"Theme of King Dedede - Kirby Triple Deluxe"}
+                animationThreshold={15}
+                style = {styles.title}
+                />
                 <Text style = {styles.titleSecondary}>Kirby</Text>
             </View>
             <View style = {styles.playerControlContainer}>
@@ -60,6 +71,15 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         height: 80,
     },
+    sliderContainer: {
+        zIndex: 1,
+        position: "absolute",
+        width: "100%",
+        top: -5,
+        left: 0,
+        right: 0,
+        backgroundColor: colors.backgroundPlayer,
+    },
     coverImage: {
         width: 60,
         height: 60,
@@ -69,8 +89,11 @@ const styles = StyleSheet.create({
     },
     titleContainer: {
         flex: 1,
-        left: 18,
+        left: 18,  
         paddingHorizontal: spacing.small,
+        overflow:"hidden",
+        marginLeft: spacing.small,
+        marginRight: spacing.medium,
     },
     title: {
         color: colors.textPrimary,
