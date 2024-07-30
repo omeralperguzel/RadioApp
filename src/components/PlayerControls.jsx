@@ -5,7 +5,7 @@ import { colors } from "../constants/colors"
 
 export const PreviousButton = ({size = iconSizes.large}) => {
     return(
-        <TouchableOpacity>
+        <TouchableOpacity activeOpacity={0.85}>
             <Feather 
             name = {"skip-back"} 
             size = {size} 
@@ -15,10 +15,11 @@ export const PreviousButton = ({size = iconSizes.large}) => {
 }
 
 export const PlayPauseButton = ({size = iconSizes.large}) => {
+    const isPlaying = false;
     return(
-        <TouchableOpacity>
+        <TouchableOpacity activeOpacity={0.85}>
             <Feather 
-            name = {true ? "pause":"play"} 
+            name = {isPlaying ? "pause" : "play"} 
             size = {size} 
             color = {colors.iconPrimary}/>
         </TouchableOpacity>
@@ -27,7 +28,7 @@ export const PlayPauseButton = ({size = iconSizes.large}) => {
 
 export const NextButton = ({size = iconSizes.large}) => {
     return(
-        <TouchableOpacity>
+        <TouchableOpacity activeOpacity={0.85}>
             <Feather 
             name = {"skip-forward"} 
             size = {size} 

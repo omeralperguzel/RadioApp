@@ -1,5 +1,5 @@
 import * as React from 'react';
-import 'react-native-gesture-handler'
+import {GestureHandlerRootView} from 'react-native-gesture-handler'
 import { Button, View, Text, Image, StyleSheet, FlatList } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -160,6 +160,7 @@ const styles = StyleSheet.create({
         });
       }*/
       return (
+        <GestureHandlerRootView style = {{flex: 1}}>
         <NavigationContainer>
           <Tab.Navigator screenOptions={{ tabBarStyle: {
                 backgroundColor: colors.backgroundHeader,
@@ -186,6 +187,7 @@ const styles = StyleSheet.create({
               }}/>
           </Tab.Navigator>
         </NavigationContainer>
+        </GestureHandlerRootView>
       );
     }
     
