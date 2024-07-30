@@ -9,6 +9,9 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import {colors} from "./src/constants/colors.js";
 import Feather from "react-native-vector-icons/Feather";
 import HomeScreen2 from "./src/screen/HomeScreen";
+import Header from './src/components/Header.jsx';
+import { fontSize } from './src/constants/dimensions.js';
+import { fontFamilies } from './src/constants/fonts.js';
 
 function HomeScreen({ navigation }) {
   const [count, setCount] = React.useState(0);
@@ -57,6 +60,7 @@ function ProfileScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <Text style = {{color: "white"}}>Profile Screen</Text>
+      <Text style = {styles.headingText}> Recommended for you </Text>
       <Button
         title="Go to Settings"
         onPress={() => navigation.navigate('Settings')}
@@ -116,6 +120,11 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center', 
     justifyContent: 'center' 
+  },
+  headingText: {
+    fontSize: fontSize.xlarge,
+    color: colors.textPrimary,
+    fontFamily: "Gilroy-Bold",
   }
 })
 

@@ -25,5 +25,6 @@ const styles = StyleSheet.create({
   headingText: {
     fontSize: 24,
     color: colors.textPrimary,
+    fontFamily: "Gilroy-Bold",
   }
 })
