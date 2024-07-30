@@ -14,6 +14,7 @@ import { fontSize, spacing } from './src/constants/dimensions.js';
 import { fontFamilies } from './src/constants/fonts.js';
 import ChannelCard from './src/components/ChannelCard.jsx';
 import ChannelCardWithCategory from './src/components/ChannelCardWithCategory.jsx';
+import FloatingPlayer from './src/components/FloatingPlayer.jsx';
 
 function HomeScreen({ navigation }) {
   const [count, setCount] = React.useState(0);
@@ -48,6 +49,7 @@ function ListScreen({ navigation }) {
       renderItem={ChannelCardWithCategory}
       //contentContainerStyle={{paddingBottom: 400}}
       />
+      <FloatingPlayer />
     </View>
   );
 }

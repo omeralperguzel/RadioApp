@@ -1,6 +1,7 @@
 export const colors = {
     background: '#091227',
     backgroundHeader: '#21293C',
+    backgroundPlayer: '#3A4152',
     textPrimary: '#EAF0FF',
     textSecondary: '#A5C0FF',
     iconPrimary: '#EAF0FF',
