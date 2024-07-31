@@ -1,13 +1,16 @@
 import React from 'react'
 import { FlatList, StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native'
-import { colors } from '../constants/colors'
 import Feather from 'react-native-vector-icons/Feather'
 import AntDesign from 'react-native-vector-icons/AntDesign'
+
+import { colors } from '../constants/colors'
 import { iconSizes, spacing, fontSize } from '../constants/dimensions'
 import { fontFamilies } from '../constants/fonts'
 import ChannelCard from '../components/ChannelCard'
 import PlayerRepeatToggle from '../components/PlayerRepeatToggle'
 import PlayerShuffleToggle from '../components/PlayerShuffleToggle'
+import PlayerProggresBar from '../components/PlayerProggresBar'
+import { NextButton, PlayPauseButton, PreviousButton } from '../components/PlayerControls'
 
 const imageUrl = "https://cdn.wikirby.com/8/81/Kirby_JP_Twitter_Old_Icon.jpg";
 
@@ -47,6 +50,14 @@ const PlayerScreen = () => {
             <PlayerShuffleToggle />
           </View>         
         </View>
+        <View>
+          <PlayerProggresBar />
+          <View style = {styles.playPauseContainer}>
+            <PreviousButton size={iconSizes.large}/>
+            <PlayPauseButton size={iconSizes.large}/>
+            <NextButton size={iconSizes.large}/>
+          </View>
+        </View>
     </View>
 )
 }
@@ -74,7 +85,7 @@ const styles = StyleSheet.create({
   coverImageContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    marginVertical: spacing.xlarge,
+    marginVertical: spacing.small,
   },
   coverImage: {
     width: 300,
@@ -117,6 +128,13 @@ const styles = StyleSheet.create({
   repeatShuffleWrapper: {
     flexDirection: 'row',
     gap: spacing.medium,
-
+  },
+  playPauseContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: spacing.large,
+    paddingTop: 15,
+    //marginTop: spacing.xlarge,
   },
 })
