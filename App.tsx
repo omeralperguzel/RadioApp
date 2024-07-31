@@ -6,15 +6,19 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 //import TrackPlayer, { Event } from 'react-native-track-player';
-import {colors} from "./src/constants/colors.js";
 import Feather from "react-native-vector-icons/Feather";
-import HomeScreen2 from "./src/screen/HomeScreen";
+
+import {colors} from "./src/constants/colors.js";
 import Header from './src/components/Header.jsx';
 import { fontSize, spacing } from './src/constants/dimensions.js';
 import { fontFamilies } from './src/constants/fonts.js';
+
 import ChannelCard from './src/components/ChannelCard.jsx';
 import ChannelCardWithCategory from './src/components/ChannelCardWithCategory.jsx';
 import FloatingPlayer from './src/components/FloatingPlayer.jsx';
+import HomeScreen2 from "./src/screen/HomeScreen";
+import LikeScreen from './src/screen/LikeScreen.jsx';
+import PlayerScreen from './src/screen/PlayerScreen.jsx';
 
 function HomeScreen({ navigation }) {
   const [count, setCount] = React.useState(0);
@@ -175,12 +179,12 @@ const styles = StyleSheet.create({
                 <Feather name="home" color={colors.iconPrimary} size={20} />
               )
               }}/>
-            <Tab.Screen name="Explore" component={HomeScreen2} options={{
+            <Tab.Screen name="Explore" component={LikeScreen} options={{
               tabBarIcon: ({ color, size }) => (
                 <Feather name="map" color={colors.iconPrimary} size={20} />
               )
               }}/>
-            <Tab.Screen name="Setting" component={SettingsStackNavigator} options={{
+            <Tab.Screen name="Setting" component={PlayerScreen} options={{
               tabBarIcon: ({ color, size }) => (
                 <Feather name="settings" color={colors.iconPrimary} size={20} />
               )
@@ -214,7 +218,16 @@ const styles = StyleSheet.create({
               headerBackTitleStyle: { fontSize: 30 },
             }}
           />
+          <Stack.Screen 
+            name="PlayerScreen" 
+            component={PlayerScreen} 
+            options={{
+              headerBackTitle: 'Custom Back',
+              headerBackTitleStyle: { fontSize: 30 },
+            }}
+          />
         </Stack.Navigator>
+
       );
     }
 

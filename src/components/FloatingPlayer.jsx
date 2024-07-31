@@ -7,12 +7,20 @@ import { NextButton, PlayPauseButton, PreviousButton } from './PlayerControls';
 import { SlideInRight, useSharedValue } from 'react-native-reanimated';
 import {Slider} from "react-native-awesome-slider";
 import MovingText from './MovingText';
+import PlayerScreen from '../screen/PlayerScreen';
+import { useNavigation } from '@react-navigation/native';
 
 const imageUrl = "https://cdn.wikirby.com/8/81/Kirby_JP_Twitter_Old_Icon.jpg";
 const FloatingPlayer = () => {
+    const navigation = useNavigation();
+
     const progress = useSharedValue(0.30);
     const min = useSharedValue(0);
     const max = useSharedValue(1);
+
+    const handleOpenPlayerScreen = () => {
+        navigation.navigate("PlayerScreen");
+    }
 
     return (
         <View>
@@ -42,7 +50,11 @@ const FloatingPlayer = () => {
                 }}
                 />
             </View>
-            <TouchableOpacity style={styles.container} activeOpacity={0.85}>
+            <TouchableOpacity 
+            style={styles.container} 
+            activeOpacity={0.85} 
+            onPress={handleOpenPlayerScreen} 
+            >
             <Image source={{uri: imageUrl}} style={styles.coverImage}/>
             <View style = {styles.titleContainer}>
                 <MovingText 
