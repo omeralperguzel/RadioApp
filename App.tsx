@@ -19,6 +19,7 @@ import FloatingPlayer from './src/components/FloatingPlayer.jsx';
 import HomeScreen2 from "./src/screen/HomeScreen";
 import LikeScreen from './src/screen/LikeScreen.jsx';
 import PlayerScreen from './src/screen/PlayerScreen.jsx';
+import DrawerNavigator from './src/navigation/DrawerNavigator.jsx';
 
 function HomeScreen({ navigation }) {
   const [count, setCount] = React.useState(0);
@@ -166,7 +167,15 @@ const styles = StyleSheet.create({
       return (
         <GestureHandlerRootView style = {{flex: 1}}>
         <NavigationContainer>
-          <Tab.Navigator screenOptions={{ tabBarStyle: {
+
+          <DrawerNavigator />
+        </NavigationContainer>
+        </GestureHandlerRootView>
+      );
+    }
+    
+    /*
+              <Tab.Navigator screenOptions={{ tabBarStyle: {
                 backgroundColor: colors.backgroundHeader,
               }, headerShown: false }}>
             <Tab.Screen name="Homepage" component={TestHomeStackNavigator} options={{
@@ -190,11 +199,8 @@ const styles = StyleSheet.create({
               )
               }}/>
           </Tab.Navigator>
-        </NavigationContainer>
-        </GestureHandlerRootView>
-      );
-    }
-    
+          */
+
     function TestHomeStackNavigator() {
       return (
         <Stack.Navigator initialRouteName="Home">

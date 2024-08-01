@@ -5,9 +5,16 @@ import { iconSizes, spacing } from '../constants/dimensions'
 import { colors } from '../constants/colors'
 
 const Header = () => {
+  
+  const navigation = useNavigation();
+  
+  const toggleDrawer = () => {
+    navigation.toggleDrawer();
+  }
+
     return (
         <View style={styles.header}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={toggleDrawer}>
               <Feather name="menu" size={iconSizes.large} color={colors.iconPrimary} />
             </TouchableOpacity>
             <TouchableOpacity> 
