@@ -5,12 +5,12 @@ import ChannelCard from './ChannelCard';
 import { fontSize } from '../constants/dimensions';
 import { colors } from '../constants/colors';
 
-const ChannelCardWithCategory = () => {
+const ChannelCardWithCategory = ({item}) => {
     return (
         <View style = {styles.container}>
-            <Text style = {styles.headingText}> Recommended for you </Text>
+            <Text style = {styles.headingText}>{item.title}</Text>
             <FlatList 
-            data={[1,2,3,4,5]} 
+            data={item.songs} 
             renderItem={ChannelCard} 
             horizontal={true}
             ItemSeparatorComponent={<View style = {{marginHorizontal: spacing.small}}/>}

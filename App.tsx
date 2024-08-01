@@ -1,11 +1,11 @@
 import * as React from 'react';
 import {GestureHandlerRootView} from 'react-native-gesture-handler'
 import { Button, View, Text, Image, StyleSheet, FlatList } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-//import TrackPlayer, { Event } from 'react-native-track-player';
+import TrackPlayer, { Event } from 'react-native-track-player';
 import Feather from "react-native-vector-icons/Feather";
 
 import {colors} from "./src/constants/colors.js";
@@ -20,6 +20,11 @@ import HomeScreen2 from "./src/screen/HomeScreen";
 import LikeScreen from './src/screen/LikeScreen.jsx';
 import PlayerScreen from './src/screen/PlayerScreen.jsx';
 import DrawerNavigator from './src/navigation/DrawerNavigator.jsx';
+import BottomTabNavigator from './src/navigation/TabNavigator.jsx';
+import TabNavigator from './src/navigation/TabNavigator.jsx';
+import { songsWithCategory } from './src/data/songsWithCategory.js';
+
+//const navigation = useNavigation()
 
 function HomeScreen({ navigation }) {
   const [count, setCount] = React.useState(0);
@@ -50,7 +55,7 @@ function ListScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <FlatList 
-      data = {[1,2,3,4,5]} 
+      data = {songsWithCategory} 
       renderItem={ChannelCardWithCategory}
       //contentContainerStyle={{paddingBottom: 400}}
       />
@@ -159,47 +164,46 @@ const styles = StyleSheet.create({
     </NavigationContainer>*/
 
     export default function App() {
-      /*React.useEffect(() => {
+      
+      React.useEffect(() => {
+        setupPlayer();
+      }, []);
+      const setupPlayer = async () => {
         await TrackPlayer.setupPlayer();
         console.log('Track player setup done');
-        });
-      }*/
+      }
+
       return (
         <GestureHandlerRootView style = {{flex: 1}}>
         <NavigationContainer>
-
-          <DrawerNavigator />
+        <Tab.Navigator screenOptions={{ tabBarStyle: {
+            backgroundColor: colors.backgroundHeader,
+          }, headerShown: false }}>
+        <Tab.Screen name="Homepage" component={TestHomeStackNavigator} options={{
+          tabBarIcon: ({ color, size }) => (
+            <Feather name="home" color={colors.iconPrimary} size={20} />
+          )
+          }} />
+        <Tab.Screen name="List" component={HomeStackNavigator} options={{
+          tabBarIcon: ({ color, size }) => (
+            <Feather name="home" color={colors.iconPrimary} size={20} />
+          )
+          }}/>
+        <Tab.Screen name="Explore" component={LikeScreen} options={{
+          tabBarIcon: ({ color, size }) => (
+            <Feather name="map" color={colors.iconPrimary} size={20} />
+          )
+          }}/>
+        <Tab.Screen name="Setting" component={PlayerScreen} options={{
+          tabBarIcon: ({ color, size }) => (
+            <Feather name="settings" color={colors.iconPrimary} size={20} />
+          )
+          }}/>
+      </Tab.Navigator>
         </NavigationContainer>
         </GestureHandlerRootView>
       );
     }
-    
-    /*
-              <Tab.Navigator screenOptions={{ tabBarStyle: {
-                backgroundColor: colors.backgroundHeader,
-              }, headerShown: false }}>
-            <Tab.Screen name="Homepage" component={TestHomeStackNavigator} options={{
-              tabBarIcon: ({ color, size }) => (
-                <Feather name="home" color={colors.iconPrimary} size={20} />
-              )
-              }} />
-            <Tab.Screen name="List" component={HomeStackNavigator} options={{
-              tabBarIcon: ({ color, size }) => (
-                <Feather name="home" color={colors.iconPrimary} size={20} />
-              )
-              }}/>
-            <Tab.Screen name="Explore" component={LikeScreen} options={{
-              tabBarIcon: ({ color, size }) => (
-                <Feather name="map" color={colors.iconPrimary} size={20} />
-              )
-              }}/>
-            <Tab.Screen name="Setting" component={PlayerScreen} options={{
-              tabBarIcon: ({ color, size }) => (
-                <Feather name="settings" color={colors.iconPrimary} size={20} />
-              )
-              }}/>
-          </Tab.Navigator>
-          */
 
     function TestHomeStackNavigator() {
       return (
@@ -252,16 +256,6 @@ const styles = StyleSheet.create({
             })}
           />
         </Stack.Navigator>
-      );
-    }
-    
-    function HomeDrawerNavigator() {
-      //return null;
-      return (
-        <Drawer.Navigator initialRouteName="HomeContent">
-          <Drawer.Screen name="HomeContent" component={HomeScreen} />
-          <Drawer.Screen name="Notifications" component={SettingsScreen} />
-        </Drawer.Navigator>
       );
     }
     

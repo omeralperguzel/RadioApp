@@ -26,7 +26,7 @@ export const PlayPauseButton = ({size = iconSizes.large}) => {
     )
 }
 
-export const NextButton = ({size = iconSizes.large}) => {
+export  const NextButton = ({size = iconSizes.large}) => {
     return(
         <TouchableOpacity activeOpacity={0.85}>
             <Feather 
