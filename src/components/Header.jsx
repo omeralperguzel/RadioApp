@@ -3,18 +3,19 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import { Feather } from 'react-native-vector-icons/Feather'
 import { iconSizes, spacing } from '../constants/dimensions'
 import { colors } from '../constants/colors'
+//import { useNavigation } from '@react-navigation/native'
 
 const Header = () => {
   
-  const navigation = useNavigation();
+  /*const navigation = useNavigation();
   
   const toggleDrawer = () => {
     navigation.toggleDrawer();
-  }
+  }*/
 
     return (
         <View style={styles.header}>
-            <TouchableOpacity onPress={toggleDrawer}>
+            <TouchableOpacity /*onPress={toggleDrawer}*/>
               <Feather name="menu" size={iconSizes.large} color={colors.iconPrimary} />
             </TouchableOpacity>
             <TouchableOpacity> 
@@ -30,8 +31,9 @@ const styles = StyleSheet.create({
     header: {
       flexDirection: 'row',
       justifyContent: 'space-between',
+      paddingHorizontal: spacing.medium,
       paddingTop: spacing.large,
-      backgroundColor: colors.backgroundHeader,
+      backgroundColor: colors.background,
       width: '100%'
     },
   })

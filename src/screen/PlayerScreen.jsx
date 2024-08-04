@@ -1,5 +1,5 @@
-import React from 'react'
-import { FlatList, StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native'
+import React, { act } from 'react'
+import { FlatList, StyleSheet, Text, TouchableOpacity, View, Image, ActivityIndicator } from 'react-native'
 import Feather from 'react-native-vector-icons/Feather'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 
@@ -11,17 +11,33 @@ import PlayerRepeatToggle from '../components/PlayerRepeatToggle'
 import PlayerShuffleToggle from '../components/PlayerShuffleToggle'
 import PlayerProggresBar from '../components/PlayerProggresBar'
 import { NextButton, PlayPauseButton, PreviousButton } from '../components/PlayerControls'
+import { useActiveTrack } from 'react-native-track-player'
+import { useNavigation } from '@react-navigation/native'
 
 const imageUrl = "https://cdn.wikirby.com/8/81/Kirby_JP_Twitter_Old_Icon.jpg";
 
 const PlayerScreen = () => {
+  const navigation = useNavigation();
+  const activeTrack = useActiveTrack();
+  console.log("PlayerScreen/activeTrack: ", activeTrack);
   const isLiked = false;
   const isMuted = false;
+  const handleGoBack = () => {
+    navigation.goBack();
+  }
+
+  if(!activeTrack){
+    return(
+      <View style = {{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: colors.background}}>
+        <ActivityIndicator size="large" color={colors.iconPrimary}/>
+      </View>
+    )
+  }
 
   return (
     <View style = {styles.container}>
         <View style = {styles.headerContainer}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={handleGoBack}>
                 <Feather name = {"arrow-left"} size = {iconSizes.medium} color = {colors.iconPrimary}/>
             </TouchableOpacity>
             <Text style = {styles.headingText}>Playing Now</Text>
@@ -30,12 +46,12 @@ const PlayerScreen = () => {
             </TouchableOpacity>
         </View> 
         <View style = {styles.coverImageContainer}>
-          <Image source={{uri: imageUrl}} style={styles.coverImage}/>
+          <Image source={{uri: activeTrack.artwork}} style={styles.coverImage}/>
         </View>
         <View style = {styles.titleRowHeartContainer}>
           <View style = {styles.titleContainer}>
-            <Text style = {styles.title}>Masked Dedede - Kirby Triple Deluxe Music Extended</Text>
-            <Text style = {styles.title2}>Kirby</Text>
+            <Text style = {styles.title}>{activeTrack.title}</Text>
+            <Text style = {styles.title2}>{activeTrack.artist}</Text>
           </View>
           <TouchableOpacity>
             <AntDesign name = {isLiked ? "heart" : "hearto"} size = {iconSizes.medium} color = {colors.iconSecondary}/>

@@ -1,6 +1,5 @@
-import React from 'react'
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native'
-import { container } from 'webpack';
+import React, { act } from 'react'
+import { StyleSheet, Text, View, Image, TouchableOpacity, ActivityIndicator } from 'react-native'
 import { colors } from '../constants/colors';
 import { fontSize, iconSizes, spacing } from '../constants/dimensions';
 import { NextButton, PlayPauseButton, PreviousButton } from './PlayerControls';
@@ -9,18 +8,30 @@ import {Slider} from "react-native-awesome-slider";
 import MovingText from './MovingText';
 import PlayerScreen from '../screen/PlayerScreen';
 import { useNavigation } from '@react-navigation/native';
+import {TrackPlayer, useActiveTrack} from 'react-native-track-player';
 
 const imageUrl = "https://cdn.wikirby.com/8/81/Kirby_JP_Twitter_Old_Icon.jpg";
 const FloatingPlayer = () => {
     const navigation = useNavigation();
+    const activeTrack = useActiveTrack();
 
     const progress = useSharedValue(0.30);
     const min = useSharedValue(0);
     const max = useSharedValue(1);
 
+    const isSliding = useSharedValue(false);
+
     const handleOpenPlayerScreen = () => {
         navigation.navigate("PlayerScreen");
     }
+
+    if(!activeTrack){
+        return(
+          <View style = {{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: colors.background}}>
+            <ActivityIndicator size="large" color={colors.iconPrimary}/>
+          </View>
+        )
+      }
 
     return (
         <View>
@@ -48,6 +59,17 @@ const FloatingPlayer = () => {
                 renderThumb={() => {
                     <View style = {{backgroundColor: "red"}}></View>;
                 }}
+                onSlidingStart={() => (isSliding.value = true)}
+                onValueChange={async (value) => {
+                    await TrackPlayer.seekTo(value * duration);
+                }}
+                onSlidingComplete={async (value) => {
+                    if (!isSliding.value){
+                        return;
+                    }
+                    isSliding.value = false;
+                    await TrackPlayer.seekTo(value * duration);
+                }}
                 />
             </View>
             <TouchableOpacity 
@@ -55,14 +77,14 @@ const FloatingPlayer = () => {
             activeOpacity={0.85} 
             onPress={handleOpenPlayerScreen} 
             >
-            <Image source={{uri: imageUrl}} style={styles.coverImage}/>
+            <Image source={{uri: activeTrack.artwork}} style={styles.coverImage}/>
             <View style = {styles.titleContainer}>
                 <MovingText 
-                text={"Theme of King Dedede - Kirby Triple Deluxe"}
+                text={activeTrack?.title}
                 animationThreshold={15}
                 style = {styles.title}
                 />
-                <Text style = {styles.titleSecondary}>Kirby</Text>
+                <Text style = {styles.titleSecondary}>{activeTrack.artist}</Text>
             </View>
             <View style = {styles.playerControlContainer}>
                 <PreviousButton size={iconSizes.medium}/>

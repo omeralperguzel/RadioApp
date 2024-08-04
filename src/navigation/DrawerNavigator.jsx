@@ -25,6 +25,7 @@ const DrawerNavigator = () => {
                 backgroundColor: colors.backgroundHeader,
             },
             headerTintColor: colors.iconPrimary,  
+            swipeEdgeWidth: 0,
         }}
         drawerContent={props => <CustomDrawerContent {...props} />}
         >

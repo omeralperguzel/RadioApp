@@ -29,4 +29,14 @@ export const recommendedSongs = [
         date: '2021-09-01',
         duration: 600,
     },
+    {
+        url: 'https://eta.vgmtreasurechest.com/soundtracks/super-mario-world-snes-gamerip/lcbymxrkll/43.%20Boss%20Battle.mp3',
+        title: 'Boss Battle',
+        artist: 'Nintendo',
+        album: 'Super Mario World Sountrack',
+        artwork: 'https://i.discogs.com/uj4E9_GlvE8LyfgZgoqsLovEYbQEiZqhehvMtY1LF6I/rs:fit/g:sm/q:90/h:489/w:548/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTkxOTk4/NC0xMTc2NTAwNjk4/LmpwZWc.jpeg',
+        genre: 'Game',
+        date: '2021-09-01',
+        duration: 600,
+    },
 ]

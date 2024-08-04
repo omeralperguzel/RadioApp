@@ -6,6 +6,7 @@ import Feather from 'react-native-vector-icons/Feather'
 import { iconSizes, spacing, fontSize } from '../constants/dimensions'
 import { fontFamilies } from '../constants/fonts'
 import ChannelCard from '../components/ChannelCard'
+import songs from '../data/songs'
 
 const LikeScreen = () => {
     return (

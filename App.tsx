@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {GestureHandlerRootView} from 'react-native-gesture-handler'
-import { Button, View, Text, Image, StyleSheet, FlatList } from 'react-native';
+import { Button, View, Text, Image, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -10,7 +10,7 @@ import Feather from "react-native-vector-icons/Feather";
 
 import {colors} from "./src/constants/colors.js";
 import Header from './src/components/Header.jsx';
-import { fontSize, spacing } from './src/constants/dimensions.js';
+import { fontSize, iconSizes, spacing } from './src/constants/dimensions.js';
 import { fontFamilies } from './src/constants/fonts.js';
 
 import ChannelCard from './src/components/ChannelCard.jsx';
@@ -23,6 +23,7 @@ import DrawerNavigator from './src/navigation/DrawerNavigator.jsx';
 import BottomTabNavigator from './src/navigation/TabNavigator.jsx';
 import TabNavigator from './src/navigation/TabNavigator.jsx';
 import { songsWithCategory } from './src/data/songsWithCategory.js';
+import { useSetupPlayer } from './src/hooks/useSetupTrackPlayer.jsx';
 
 //const navigation = useNavigation()
 
@@ -54,6 +55,14 @@ function HomeScreen({ navigation }) {
 function ListScreen({ navigation }) {
   return (
     <View style={styles.container}>
+      <View style={styles.header}>
+            <TouchableOpacity /*onPress={toggleDrawer}*/>
+              <Feather name="menu" size={iconSizes.medium} color={colors.iconPrimary} />
+            </TouchableOpacity>
+            <TouchableOpacity> 
+              <Feather name="search" size={iconSizes.medium} color={colors.iconPrimary} />
+            </TouchableOpacity>
+        </View>
       <FlatList 
       data = {songsWithCategory} 
       renderItem={ChannelCardWithCategory}
@@ -153,7 +162,15 @@ const styles = StyleSheet.create({
     fontFamily: "Gilroy-Bold",
     paddingVertical: spacing.medium,
     paddingHorizontal: spacing.medium,
-  }
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: spacing.medium,
+    paddingTop: spacing.large,
+    backgroundColor: colors.background,
+    width: '100%'
+  },
 })
 
 /*<NavigationContainer>
@@ -165,13 +182,17 @@ const styles = StyleSheet.create({
 
     export default function App() {
       
-      React.useEffect(() => {
+      /*React.useEffect(() => {
         setupPlayer();
       }, []);
       const setupPlayer = async () => {
         await TrackPlayer.setupPlayer();
         console.log('Track player setup done');
+      }*/
+     const onLoad = () => {
+        console.log('Before useSetupPlayer: Track player setup loaded');
       }
+      useSetupPlayer({onLoad});
 
       return (
         <GestureHandlerRootView style = {{flex: 1}}>
@@ -249,10 +270,11 @@ const styles = StyleSheet.create({
             component={ListScreen}
             //component={HomeScreen}
             options={({ navigation }) => ({
-              headerTitle: (props) => <LogoTitle {...props} />,
-              headerStyle: {
+              headerShown: false,
+              //headerTitle: (props) => <LogoTitle {...props} />,
+              /*headerStyle: {
                 backgroundColor: colors.backgroundHeader,
-              },
+              },*/
             })}
           />
         </Stack.Navigator>
