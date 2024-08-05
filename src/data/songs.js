@@ -7,7 +7,7 @@ export const recommendedSongs = [
         artwork: 'https://cdn.wikirby.com/8/81/Kirby_JP_Twitter_Old_Icon.jpg',
         genre: 'Game',
         date: '2021-09-01',
-        duration: 600,
+        duration: null,
     },
     {
         url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3',
@@ -17,7 +17,7 @@ export const recommendedSongs = [
         artwork: 'https://m.media-amazon.com/images/I/81jFI+p-oLL._UF1000,1000_QL80_.jpg',
         genre: 'Game',
         date: '2021-09-01',
-        duration: 600,
+        duration: null,
     },
     {
         url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3',
@@ -27,7 +27,7 @@ export const recommendedSongs = [
         artwork: 'https://i1.sndcdn.com/artworks-000471481281-msbetv-t500x500.jpg',
         genre: 'Game',
         date: '2021-09-01',
-        duration: 600,
+        duration: null,
     },
     {
         url: 'https://eta.vgmtreasurechest.com/soundtracks/super-mario-world-snes-gamerip/lcbymxrkll/43.%20Boss%20Battle.mp3',
@@ -37,6 +37,6 @@ export const recommendedSongs = [
         artwork: 'https://i.discogs.com/uj4E9_GlvE8LyfgZgoqsLovEYbQEiZqhehvMtY1LF6I/rs:fit/g:sm/q:90/h:489/w:548/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTkxOTk4/NC0xMTc2NTAwNjk4/LmpwZWc.jpeg',
         genre: 'Game',
         date: '2021-09-01',
-        duration: 600,
+        duration: null,
     },
 ]

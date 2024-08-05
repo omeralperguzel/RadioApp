@@ -1,4 +1,4 @@
-import React, { act } from 'react'
+import React, { act, useState } from 'react'
 import { FlatList, StyleSheet, Text, TouchableOpacity, View, Image, ActivityIndicator } from 'react-native'
 import Feather from 'react-native-vector-icons/Feather'
 import AntDesign from 'react-native-vector-icons/AntDesign'
@@ -9,9 +9,9 @@ import { fontFamilies } from '../constants/fonts'
 import ChannelCard from '../components/ChannelCard'
 import PlayerRepeatToggle from '../components/PlayerRepeatToggle'
 import PlayerShuffleToggle from '../components/PlayerShuffleToggle'
-import PlayerProggresBar from '../components/PlayerProggresBar'
+import PlayerProgressBar from '../components/PlayerProgressBar'
 import { NextButton, PlayPauseButton, PreviousButton } from '../components/PlayerControls'
-import { useActiveTrack } from 'react-native-track-player'
+import TrackPlayer, { useActiveTrack } from 'react-native-track-player'
 import { useNavigation } from '@react-navigation/native'
 
 const imageUrl = "https://cdn.wikirby.com/8/81/Kirby_JP_Twitter_Old_Icon.jpg";
@@ -21,7 +21,7 @@ const PlayerScreen = () => {
   const activeTrack = useActiveTrack();
   console.log("PlayerScreen/activeTrack: ", activeTrack);
   const isLiked = false;
-  const isMuted = false;
+  const [isMuted, setIsMute] = useState(false);
   const handleGoBack = () => {
     navigation.goBack();
   }
@@ -33,6 +33,11 @@ const PlayerScreen = () => {
       </View>
     )
   }
+
+  const handleToggleVolume = () => {
+    TrackPlayer.setVolume(isMuted ? 1 : 0); 
+    setIsMute(!isMuted);
+ }
 
   return (
     <View style = {styles.container}>
@@ -58,7 +63,7 @@ const PlayerScreen = () => {
           </TouchableOpacity>
         </View>
         <View style = {styles.playerControlContainer}>
-          <TouchableOpacity style = {styles.volumeWrapper}>
+          <TouchableOpacity style = {styles.volumeWrapper} onPress={handleToggleVolume}>
             <Feather name = {isMuted ? "volume-x" : "volume-1"} size = {iconSizes.large} color = {colors.iconSecondary}/>
           </TouchableOpacity> 
           <View style = {styles.repeatShuffleWrapper}>
@@ -67,7 +72,7 @@ const PlayerScreen = () => {
           </View>         
         </View>
         <View>
-          <PlayerProggresBar />
+          <PlayerProgressBar />
           <View style = {styles.playPauseContainer}>
             <PreviousButton size={iconSizes.large}/>
             <PlayPauseButton size={iconSizes.large}/>
