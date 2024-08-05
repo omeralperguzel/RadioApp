@@ -21,9 +21,12 @@ const ChannelCard = ({item, containerStyle, imageStyle, handlePlay}) => {
     return (
         <TouchableOpacity style = {[styles.container, containerStyle]} onPress={() => handlePlay(item)}>
             <Image source={{uri: item?.artwork}} style={[styles.coverImage, imageStyle]}/>
-            <Text style={styles.title} numberOfLines={2}> {item?.title}
+            <Text style={styles.title} numberOfLines={2}> 
+                {item?.title}
             </Text>
-            <Text style={styles.titleSecondary}>{item?.artist}</Text>
+            <Text style={styles.titleSecondary}>
+                {item?.artist}
+            </Text>
         </TouchableOpacity>
     )
 }

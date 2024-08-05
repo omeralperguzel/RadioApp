@@ -24,6 +24,7 @@ import BottomTabNavigator from './src/navigation/TabNavigator.jsx';
 import TabNavigator from './src/navigation/TabNavigator.jsx';
 import { songsWithCategory } from './src/data/songsWithCategory.js';
 import { useSetupPlayer } from './src/hooks/useSetupTrackPlayer.jsx';
+import useLikeSongs from './src/store/likeStore.jsx';
 
 //const navigation = useNavigation()
 
@@ -181,7 +182,13 @@ const styles = StyleSheet.create({
     </NavigationContainer>*/
 
     export default function App() {
-      
+     
+      const {loadLikeSongs} = useLikeSongs();
+
+      React.useEffect(() => {
+        loadLikeSongs();
+      }, [])
+
       /*React.useEffect(() => {
         setupPlayer();
       }, []);
@@ -189,6 +196,7 @@ const styles = StyleSheet.create({
         await TrackPlayer.setupPlayer();
         console.log('Track player setup done');
       }*/
+
      const onLoad = () => {
         console.log('Before useSetupPlayer: Track player setup loaded');
       }

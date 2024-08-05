@@ -7,3 +7,8 @@ export const formatSecondsToMinute = seconds => {
     
     return `${formattedMinutes}:${formattedSeconds}`;
 }
+
+// array = songs, track = item
+export const isExist = (array, item) => {
+    return array.some(array => array.url === item.url);
+}

@@ -1,4 +1,4 @@
-import React, { act, useState } from 'react'
+import React, { act, useEffect, useState } from 'react'
 import { FlatList, StyleSheet, Text, TouchableOpacity, View, Image, ActivityIndicator } from 'react-native'
 import Feather from 'react-native-vector-icons/Feather'
 import AntDesign from 'react-native-vector-icons/AntDesign'
@@ -13,15 +13,32 @@ import PlayerProgressBar from '../components/PlayerProgressBar'
 import { NextButton, PlayPauseButton, PreviousButton } from '../components/PlayerControls'
 import TrackPlayer, { useActiveTrack } from 'react-native-track-player'
 import { useNavigation } from '@react-navigation/native'
+import useLikeSongs from '../store/likeStore'
+import { isExist } from '../utils'
 
 const imageUrl = "https://cdn.wikirby.com/8/81/Kirby_JP_Twitter_Old_Icon.jpg";
 
 const PlayerScreen = () => {
+  
+  const {likedSongs, addToLiked} = useLikeSongs();
+  console.log("PlayerScreen/likedSongs: ", likedSongs);
+
   const navigation = useNavigation();
   const activeTrack = useActiveTrack();
   console.log("PlayerScreen/activeTrack: ", activeTrack);
+  
   const isLiked = false;
   const [isMuted, setIsMute] = useState(false);
+  
+  useEffect(() => {
+    setVolume();
+  }, []);
+
+  const setVolume = async () => {
+    const volume = await TrackPlayer.getVolume();
+    setIsMute(volume === 0 ? true : false);
+  }
+
   const handleGoBack = () => {
     navigation.goBack();
   }
@@ -58,8 +75,8 @@ const PlayerScreen = () => {
             <Text style = {styles.title}>{activeTrack.title}</Text>
             <Text style = {styles.title2}>{activeTrack.artist}</Text>
           </View>
-          <TouchableOpacity>
-            <AntDesign name = {isLiked ? "heart" : "hearto"} size = {iconSizes.medium} color = {colors.iconSecondary}/>
+          <TouchableOpacity onPress={() => addToLiked(activeTrack)}> 
+            <AntDesign name = {isExist(likedSongs, activeTrack) ? "heart" : "hearto"} size = {iconSizes.medium} color = {colors.iconSecondary}/>
           </TouchableOpacity>
         </View>
         <View style = {styles.playerControlContainer}>
@@ -82,6 +99,7 @@ const PlayerScreen = () => {
     </View>
 )
 }
+
 
 export default PlayerScreen
 
