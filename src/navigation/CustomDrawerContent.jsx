@@ -16,8 +16,8 @@ const CustomDrawerContent = (props) => {
     }
     
     return (
-        <DrawerContentScrollView style = {styles.container}>
-            <View style = {styles.headerIconContainer}>
+        <DrawerContentScrollView style = {[styles.container, {backgroundColor: colors.background}]}>
+            <View style = {[styles.headerIconContainer, {color: colors.textPrimary}]}>
                 <TouchableOpacity onPress={toggleDrawer}>
                     <Feather 
                     name = {"x-circle"} 

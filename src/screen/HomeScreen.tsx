@@ -1,19 +1,34 @@
 import React from 'react'
 import { FlatList, StyleSheet, Text, View } from 'react-native'
-import {colors} from "../constants/colors"
 import Feather from 'react-native-vector-icons/Feather'
 import { TouchableOpacity } from 'react-native-gesture-handler'
-import { iconSizes, spacing } from '../constants/dimensions'
+import { fontSize, iconSizes, spacing } from '../constants/dimensions'
 import Header from '../components/Header'
 import FloatingPlayer from '../components/FloatingPlayer'
 import ChannelCardWithCategory from '../components/ChannelCardWithCategory'
+import { songsWithCategory } from '../data/songsWithCategory'
+import { useTheme } from '@react-navigation/native'
+import { useThemeStore } from '../store/themeStore'
+import { DarkTheme } from '../theme/DarkTheme'
+import { LightTheme } from '../theme/LightTheme'
 
 const HomeScreen = () => {
+  const {colors} = useTheme();
+  const {isDarkMode, toggleAppTheme} = useThemeStore();
+
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, {backgroundColor: colors.background}]}>
+      <View style={[styles.header, {backgroundColor: colors.background}]}>
+            <TouchableOpacity /*onPress={toggleDrawer}*/>
+              <Feather name="menu" size={iconSizes.medium} color = {colors.iconPrimary} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={toggleAppTheme}> 
+              <Feather name="search" size={iconSizes.medium} color={colors.iconPrimary} />
+            </TouchableOpacity>
+        </View>
       <FlatList 
-      data = {[1,2,3,4,5]} 
-      renderItem={ChannelCardWithCategory}
+      data = {songsWithCategory} 
+      renderItem={({item}) => <ChannelCardWithCategory item = {item}/>}
       //contentContainerStyle={{paddingBottom: 400}}
       />
       <FloatingPlayer />
@@ -25,12 +40,21 @@ export default HomeScreen
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.background,
     flex: 1,
+    //alignItems: 'center', 
+    //justifyContent: 'center' 
   },
   headingText: {
-    fontSize: 24,
-    color: colors.textPrimary,
+    fontSize: fontSize.xlarge,
     fontFamily: "Gilroy-Bold",
-  }
+    paddingVertical: spacing.medium,
+    paddingHorizontal: spacing.medium,
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: spacing.medium,
+    paddingTop: spacing.large,
+    width: '100%'
+  },
 })

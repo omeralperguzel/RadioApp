@@ -2,11 +2,12 @@ import React from 'react'
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import { Feather } from 'react-native-vector-icons/Feather'
 import { iconSizes, spacing } from '../constants/dimensions'
-import { colors } from '../constants/colors'
+import { useTheme } from '@react-navigation/native'
 //import { useNavigation } from '@react-navigation/native'
 
 const Header = () => {
   
+  const {colors} = useTheme();
   /*const navigation = useNavigation();
   
   const toggleDrawer = () => {

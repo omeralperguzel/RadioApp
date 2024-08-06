@@ -3,10 +3,11 @@ import { FlatList, Image, StyleSheet, Text, View} from 'react-native';
 import {spacing} from '../constants/dimensions';
 import ChannelCard from './ChannelCard';
 import { fontSize } from '../constants/dimensions';
-import { colors } from '../constants/colors';
 import TrackPlayer from 'react-native-track-player';
+import { useTheme } from '@react-navigation/native';
 
 const ChannelCardWithCategory = ({item}) => {
+    const {colors} = useTheme();
     const handlePlayTrack = async (selectedTrack, songs = item.songs) => {
         //const songs = item.songs //Get all songs
         //Make a queue then play songs
@@ -31,7 +32,7 @@ const ChannelCardWithCategory = ({item}) => {
 
     return (
         <View style = {styles.container}>
-            <Text style = {styles.headingText}>{item.title}</Text>
+            <Text style = {[styles.headingText, {color: colors.textPrimary}]}>{item.title}</Text>
             <FlatList 
             data={item.songs} 
             renderItem={({item}) => (
@@ -44,6 +45,7 @@ const ChannelCardWithCategory = ({item}) => {
             horizontal={true}
             ItemSeparatorComponent={<View style = {{marginHorizontal: spacing.small}}/>}
             contentContainerStyle = {{paddingHorizontal: spacing.large}}
+            showsHorizontalScrollIndicator = {false}
       />
         </View>
     )
@@ -57,7 +59,6 @@ const styles = StyleSheet.create({
     },
     headingText: {
         fontSize: fontSize.xlarge,
-        color: colors.textPrimary,
         fontFamily: "Gilroy-Bold",
         paddingVertical: spacing.medium,
         paddingHorizontal: spacing.medium,

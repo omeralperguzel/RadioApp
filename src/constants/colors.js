@@ -8,4 +8,7 @@ export const colors = {
     iconSecondary: '#8996B8',
     minimumTintColor: '#FFFFFF',
     maximumTintColor: '#555B6A',
+    backgroundHeaderDark: '#21293C',
+    backgroundHeaderLight: '#C5C8CC',
+    iconPrimaryLight: '#091127',
 };

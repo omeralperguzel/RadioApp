@@ -3,7 +3,6 @@ import { FlatList, StyleSheet, Text, TouchableOpacity, View, Image, ActivityIndi
 import Feather from 'react-native-vector-icons/Feather'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 
-import { colors } from '../constants/colors'
 import { iconSizes, spacing, fontSize } from '../constants/dimensions'
 import { fontFamilies } from '../constants/fonts'
 import ChannelCard from '../components/ChannelCard'
@@ -12,7 +11,7 @@ import PlayerShuffleToggle from '../components/PlayerShuffleToggle'
 import PlayerProgressBar from '../components/PlayerProgressBar'
 import { NextButton, PlayPauseButton, PreviousButton } from '../components/PlayerControls'
 import TrackPlayer, { useActiveTrack } from 'react-native-track-player'
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, useTheme } from '@react-navigation/native'
 import useLikeSongs from '../store/likeStore'
 import { isExist } from '../utils'
 
@@ -20,6 +19,7 @@ const imageUrl = "https://cdn.wikirby.com/8/81/Kirby_JP_Twitter_Old_Icon.jpg";
 
 const PlayerScreen = () => {
   
+  const {colors} = useTheme();
   const {likedSongs, addToLiked} = useLikeSongs();
   console.log("PlayerScreen/likedSongs: ", likedSongs);
 
@@ -62,7 +62,7 @@ const PlayerScreen = () => {
             <TouchableOpacity onPress={handleGoBack}>
                 <Feather name = {"arrow-left"} size = {iconSizes.medium} color = {colors.iconPrimary}/>
             </TouchableOpacity>
-            <Text style = {styles.headingText}>Playing Now</Text>
+            <Text style = {[styles.headingText, {color: colors.textPrimary}]}>Playing Now</Text>
             <TouchableOpacity>
                 <Feather name = {"more-horizontal"} size = {iconSizes.medium} color = {colors.iconPrimary}/>
             </TouchableOpacity>
@@ -72,8 +72,8 @@ const PlayerScreen = () => {
         </View>
         <View style = {styles.titleRowHeartContainer}>
           <View style = {styles.titleContainer}>
-            <Text style = {styles.title}>{activeTrack.title}</Text>
-            <Text style = {styles.title2}>{activeTrack.artist}</Text>
+            <Text style = {[styles.title, {color: colors.textPrimary}]}>{activeTrack.title}</Text>
+            <Text style = {[styles.title2, {color: colors.textSecondary}]}>{activeTrack.artist}</Text>
           </View>
           <TouchableOpacity onPress={() => addToLiked(activeTrack)}> 
             <AntDesign name = {isExist(likedSongs, activeTrack) ? "heart" : "hearto"} size = {iconSizes.medium} color = {colors.iconSecondary}/>
@@ -106,7 +106,6 @@ export default PlayerScreen
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.background,
   },
   headerContainer: {
     flexDirection: 'row',
@@ -118,7 +117,6 @@ const styles = StyleSheet.create({
   },
   headingText: {
     fontSize: fontSize.large,
-    color: colors.textPrimary,
     fontFamily: fontFamilies.bold,
   },
   coverImageContainer: {
@@ -143,14 +141,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.medium,
   },
   title: {
-    color: colors.textPrimary,
     fontFamily: fontFamilies.medium,
     textAlign: 'center',
     fontSize: fontSize.large,
     paddingVertical: spacing.small,
   },
   title2: {
-    color: colors.textSecondary,
     fontFamily: fontFamilies.regular,
     textAlign: 'center',
     fontSize: fontSize.medium,

@@ -1,16 +1,18 @@
 import React from 'react'
 import {FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { container } from 'webpack'
-import { colors } from '../constants/colors'
 import Feather from 'react-native-vector-icons/Feather'
 import { iconSizes, spacing, fontSize } from '../constants/dimensions'
 import { fontFamilies } from '../constants/fonts'
 import ChannelCard from '../components/ChannelCard'
 import songs from '../data/songs'
 import useLikeSongs from '../store/likeStore'
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, useTheme } from '@react-navigation/native'
 
 const LikeScreen = () => {
+
+    const {colors} = useTheme();
+
     const navigation = useNavigation();
     const {likedSongs, addToLiked} = useLikeSongs();
     const handleGoBack = () => {
@@ -50,7 +52,7 @@ const LikeScreen = () => {
             </View>
             <FlatList 
             ListHeaderComponent={
-                <Text style = {styles.headingText}>Liked Songs</Text>
+                <Text style = {[styles.headingText, {color:colors.textPrimary}]}>Liked Songs</Text>
             }
             data={likedSongs} 
             renderItem = {({item}) => 
@@ -84,7 +86,6 @@ export default LikeScreen
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: colors.background,
     },
     headerContainer: {
         flexDirection: 'row',
@@ -96,7 +97,6 @@ const styles = StyleSheet.create({
     },
     headingText: {
         fontSize: fontSize.xlarge,
-        color: colors.textPrimary,
         fontFamily: fontFamilies.bold,
     },
 })

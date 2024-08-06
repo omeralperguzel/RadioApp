@@ -1,11 +1,13 @@
 import { TouchableOpacity } from "react-native"
 import Feather from 'react-native-vector-icons/Feather'
 import { iconSizes } from "../constants/dimensions"
-import { colors } from "../constants/colors"
 import TrackPlayer, { useIsPlaying } from "react-native-track-player"
 import { skipToNext } from "react-native-track-player/lib/src/trackPlayer"
+import { useTheme } from "@react-navigation/native"
 
 export const PreviousButton = ({size = iconSizes.large}) => {
+    const {colors} = useTheme();
+
     const handleGoToPrevious = async () => {
         TrackPlayer.skipToPrevious()
     }
@@ -20,6 +22,8 @@ export const PreviousButton = ({size = iconSizes.large}) => {
 }
 
 export const PlayPauseButton = ({size = iconSizes.large}) => {
+    const {colors} = useTheme();
+    
     const {playing} = useIsPlaying();
     const handleTogglePlay = () => {
         if(playing){
@@ -39,6 +43,8 @@ export const PlayPauseButton = ({size = iconSizes.large}) => {
 }
 
 export  const NextButton = ({size = iconSizes.large}) => {
+    const {colors} = useTheme();
+    
     const handleGoToNext = async () => {
         TrackPlayer.skipToNext()
     }

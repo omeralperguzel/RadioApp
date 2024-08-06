@@ -1,17 +1,17 @@
 import * as React from 'react';
 import {GestureHandlerRootView} from 'react-native-gesture-handler'
-import { Button, View, Text, Image, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import { Button, View, Text, Image, StyleSheet, FlatList, TouchableOpacity, useColorScheme } from 'react-native';
+import { NavigationContainer, useNavigation, useTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import TrackPlayer, { Event } from 'react-native-track-player';
 import Feather from "react-native-vector-icons/Feather";
 
-import {colors} from "./src/constants/colors.js";
 import Header from './src/components/Header.jsx';
 import { fontSize, iconSizes, spacing } from './src/constants/dimensions.js';
 import { fontFamilies } from './src/constants/fonts.js';
+import { colors } from './src/constants/colors.js';
 
 import ChannelCard from './src/components/ChannelCard.jsx';
 import ChannelCardWithCategory from './src/components/ChannelCardWithCategory.jsx';
@@ -25,6 +25,9 @@ import TabNavigator from './src/navigation/TabNavigator.jsx';
 import { songsWithCategory } from './src/data/songsWithCategory.js';
 import { useSetupPlayer } from './src/hooks/useSetupTrackPlayer.jsx';
 import useLikeSongs from './src/store/likeStore.jsx';
+import { DarkTheme } from './src/theme/DarkTheme.jsx';
+import { LightTheme } from './src/theme/LightTheme.jsx';
+import { useThemeStore } from './src/store/themeStore.jsx';
 
 //const navigation = useNavigation()
 
@@ -53,10 +56,11 @@ function HomeScreen({ navigation }) {
   );
 }
 
-function ListScreen({ navigation }) {
+function ListScreen() {
+  
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
+    <View style={[styles.container, {backgroundColor: colors.background}]}>
+      <View style={[styles.header, {backgroundColor: colors.background}]}>
             <TouchableOpacity /*onPress={toggleDrawer}*/>
               <Feather name="menu" size={iconSizes.medium} color={colors.iconPrimary} />
             </TouchableOpacity>
@@ -66,7 +70,7 @@ function ListScreen({ navigation }) {
         </View>
       <FlatList 
       data = {songsWithCategory} 
-      renderItem={ChannelCardWithCategory}
+      renderItem={({item}) => <ChannelCardWithCategory item = {item}/>}
       //contentContainerStyle={{paddingBottom: 400}}
       />
       <FloatingPlayer />
@@ -114,15 +118,6 @@ function SettingsScreen({ navigation }) {
         onPress={() => navigation.navigate('Profile')}
       />
     </View>
-  );
-}
-
-function LogoTitle() {
-  return (
-    <Image
-      style={{ width: 40, height: 40, alignItems: 'center' }}
-      source={require('./radioicon.png')}
-    />
   );
 }
 
@@ -182,12 +177,27 @@ const styles = StyleSheet.create({
     </NavigationContainer>*/
 
     export default function App() {
-     
+
+      const scheme = useColorScheme();
+
+      const {isDarkMode, toggleAppTheme} = useThemeStore((state) => state);
       const {loadLikeSongs} = useLikeSongs();
+
+      var BottomBarBackgroundColor = colors.backgroundHeaderLight;
+      var BottomBarIconColor = colors.iconPrimaryLight
+      if (isDarkMode == true) {
+        BottomBarBackgroundColor = colors.backgroundHeaderDark;
+        BottomBarIconColor = colors.iconPrimary;
+      }
+      else if (isDarkMode == false) {
+        BottomBarBackgroundColor = colors.backgroundHeaderLight;
+        BottomBarIconColor = colors.iconPrimaryLight;
+      }
 
       React.useEffect(() => {
         loadLikeSongs();
-      }, [])
+        scheme === "light" ? toggleAppTheme(false) : toggleAppTheme(true);
+      }, [scheme])
 
       /*React.useEffect(() => {
         setupPlayer();
@@ -204,28 +214,27 @@ const styles = StyleSheet.create({
 
       return (
         <GestureHandlerRootView style = {{flex: 1}}>
-        <NavigationContainer>
-        <Tab.Navigator screenOptions={{ tabBarStyle: {
-            backgroundColor: colors.backgroundHeader,
+        <NavigationContainer theme={isDarkMode ? DarkTheme : LightTheme}>
+        <Tab.Navigator screenOptions={{ tabBarStyle: {backgroundColor: BottomBarBackgroundColor,
           }, headerShown: false }}>
-        <Tab.Screen name="Homepage" component={TestHomeStackNavigator} options={{
+        <Tab.Screen name="Main" component={HomeStackNavigator} options={{
           tabBarIcon: ({ color, size }) => (
-            <Feather name="home" color={colors.iconPrimary} size={20} />
+            <Feather name="home" color={BottomBarIconColor} size={20} />
           )
           }} />
-        <Tab.Screen name="List" component={HomeStackNavigator} options={{
+        <Tab.Screen name="List" component={LikeScreen} options={{
           tabBarIcon: ({ color, size }) => (
-            <Feather name="home" color={colors.iconPrimary} size={20} />
+            <Feather name="heart" color={BottomBarIconColor} size={20} />
           )
           }}/>
-        <Tab.Screen name="Explore" component={LikeScreen} options={{
+        <Tab.Screen name="Explore" component={TestHomeStackNavigator} options={{
           tabBarIcon: ({ color, size }) => (
-            <Feather name="map" color={colors.iconPrimary} size={20} />
+            <Feather name="map" color={BottomBarIconColor} size={20} />
           )
           }}/>
         <Tab.Screen name="Setting" component={PlayerScreen} options={{
           tabBarIcon: ({ color, size }) => (
-            <Feather name="settings" color={colors.iconPrimary} size={20} />
+            <Feather name="settings" color={BottomBarIconColor} size={20} />
           )
           }}/>
       </Tab.Navigator>
@@ -235,14 +244,15 @@ const styles = StyleSheet.create({
     }
 
     function TestHomeStackNavigator() {
+
       return (
-        <Stack.Navigator initialRouteName="Home">
+        <Stack.Navigator initialRouteName="Test">
           <Stack.Screen
-            name="Home"
+            name="Test"
             component={HomeScreen}
             //component={HomeScreen}
             options={({ navigation }) => ({
-              headerTitle: (props) => <LogoTitle {...props} />,
+              //headerTitle: (props) => <LogoTitle {...props} />,
               headerRight: () => <Button title="Update count" />,
               headerStyle: {
                 backgroundColor: colors.backgroundHeader,
@@ -252,14 +262,6 @@ const styles = StyleSheet.create({
           <Stack.Screen 
             name="Details" 
             component={DetailsScreen} 
-            options={{
-              headerBackTitle: 'Custom Back',
-              headerBackTitleStyle: { fontSize: 30 },
-            }}
-          />
-          <Stack.Screen 
-            name="PlayerScreen" 
-            component={PlayerScreen} 
             options={{
               headerBackTitle: 'Custom Back',
               headerBackTitleStyle: { fontSize: 30 },
@@ -275,14 +277,21 @@ const styles = StyleSheet.create({
         <Stack.Navigator initialRouteName="Home">
           <Stack.Screen
             name="Home"
-            component={ListScreen}
-            //component={HomeScreen}
+            //component={ListScreen}
+            component={HomeScreen2}
             options={({ navigation }) => ({
               headerShown: false,
               //headerTitle: (props) => <LogoTitle {...props} />,
               /*headerStyle: {
                 backgroundColor: colors.backgroundHeader,
               },*/
+            })}
+          />
+          <Stack.Screen 
+            name="PlayerScreen" 
+            component={PlayerScreen} 
+            options={({ navigation }) => ({
+              headerShown: false,
             })}
           />
         </Stack.Navigator>

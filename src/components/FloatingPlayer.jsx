@@ -1,17 +1,19 @@
 import React, { act } from 'react'
 import { StyleSheet, Text, View, Image, TouchableOpacity, ActivityIndicator } from 'react-native'
-import { colors } from '../constants/colors';
 import { fontSize, iconSizes, spacing } from '../constants/dimensions';
 import { NextButton, PlayPauseButton, PreviousButton } from './PlayerControls';
 import { SlideInRight, useSharedValue } from 'react-native-reanimated';
 import {Slider} from "react-native-awesome-slider";
 import MovingText from './MovingText';
 import PlayerScreen from '../screen/PlayerScreen';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useTheme } from '@react-navigation/native';
 import {TrackPlayer, useActiveTrack} from 'react-native-track-player';
 
 const imageUrl = "https://cdn.wikirby.com/8/81/Kirby_JP_Twitter_Old_Icon.jpg";
 const FloatingPlayer = () => {
+
+    const {colors} = useTheme();
+
     const navigation = useNavigation();
     const activeTrack = useActiveTrack();
 
@@ -36,7 +38,7 @@ const FloatingPlayer = () => {
     return (
         <View>
             <View style={{zIndex: 1,}}>
-                <Slider style={styles.sliderContainer}
+                <Slider style={[styles.sliderContainer, {backgroundColor: colors.backgroundPlayer}]}
                 progress={progress}
                 minimumValue={min}
                 maximumValue={max}
@@ -73,7 +75,7 @@ const FloatingPlayer = () => {
                 />
             </View>
             <TouchableOpacity 
-            style={styles.container} 
+            style={[styles.container, {backgroundColor: colors.backgroundPlayer}]} 
             activeOpacity={0.85} 
             onPress={handleOpenPlayerScreen} 
             >
@@ -82,9 +84,9 @@ const FloatingPlayer = () => {
                 <MovingText 
                 text={activeTrack?.title}
                 animationThreshold={15}
-                style = {styles.title}
+                style = {[styles.title, {color: colors.textPrimary}]}
                 />
-                <Text style = {styles.titleSecondary}>{activeTrack.artist}</Text>
+                <Text style = {[styles.titleSecondary, {color: colors.textSecondary}]}>{activeTrack.artist}</Text>
             </View>
             <View style = {styles.playerControlContainer}>
                 <PreviousButton size={iconSizes.medium}/>
@@ -101,7 +103,6 @@ export default FloatingPlayer;
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
-        backgroundColor: colors.backgroundPlayer,
         alignItems: 'center',
         height: 80,
     },
@@ -112,7 +113,6 @@ const styles = StyleSheet.create({
         top: -5,
         left: 0,
         right: 0,
-        backgroundColor: colors.backgroundPlayer,
     },
     coverImage: {
         width: 60,
@@ -130,12 +130,10 @@ const styles = StyleSheet.create({
         marginRight: spacing.medium,
     },
     title: {
-        color: colors.textPrimary,
         fontSize: fontSize.large,
         //fontFamily: "Gilroy-Bold",
     },
     titleSecondary: {
-        color: colors.textSecondary,
         fontSize: fontSize.medium,
         fontFamily: "Gilroy-Medium",
     },
