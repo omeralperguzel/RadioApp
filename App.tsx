@@ -19,6 +19,7 @@ import FloatingPlayer from './src/components/FloatingPlayer.jsx';
 import HomeScreen2 from "./src/screen/HomeScreen";
 import LikeScreen from './src/screen/LikeScreen.jsx';
 import PlayerScreen from './src/screen/PlayerScreen.jsx';
+import MapScreen from './src/screen/MapScreen.jsx';
 import DrawerNavigator from './src/navigation/DrawerNavigator.jsx';
 import BottomTabNavigator from './src/navigation/TabNavigator.jsx';
 import TabNavigator from './src/navigation/TabNavigator.jsx';
@@ -227,7 +228,7 @@ const styles = StyleSheet.create({
             <Feather name="heart" color={BottomBarIconColor} size={20} />
           )
           }}/>
-        <Tab.Screen name="Explore" component={TestHomeStackNavigator} options={{
+        <Tab.Screen name="Explore" component={MapScreen} options={{
           tabBarIcon: ({ color, size }) => (
             <Feather name="map" color={BottomBarIconColor} size={20} />
           )
