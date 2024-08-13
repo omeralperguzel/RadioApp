@@ -1,12 +1,13 @@
 import * as React from 'react';
 import {GestureHandlerRootView} from 'react-native-gesture-handler'
-import { Button, View, Text, Image, StyleSheet, FlatList, TouchableOpacity, useColorScheme } from 'react-native';
+import { Button, View, Text, Image, StyleSheet, FlatList, TouchableOpacity, useColorScheme, Platform } from 'react-native';
 import { NavigationContainer, useNavigation, useTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import TrackPlayer, { Event } from 'react-native-track-player';
 import Feather from "react-native-vector-icons/Feather";
+import SplashScreen from 'react-native-splash-screen';
 
 import Header from './src/components/Header.jsx';
 import { fontSize, iconSizes, spacing } from './src/constants/dimensions.js';
@@ -28,7 +29,7 @@ import { useSetupPlayer } from './src/hooks/useSetupTrackPlayer.jsx';
 import useLikeSongs from './src/store/likeStore.jsx';
 import { DarkTheme } from './src/theme/DarkTheme.jsx';
 import { LightTheme } from './src/theme/LightTheme.jsx';
-import { useThemeStore } from './src/store/themeStore.jsx';
+import { useThemeStore } from './src/store/themeStore.jsx'
 
 //const navigation = useNavigation()
 
@@ -196,6 +197,9 @@ const styles = StyleSheet.create({
       }
 
       React.useEffect(() => {
+        if(Platform.OS === 'android') {
+          SplashScreen.hide();
+        }
         loadLikeSongs();
         scheme === "light" ? toggleAppTheme(false) : toggleAppTheme(true);
       }, [scheme])
