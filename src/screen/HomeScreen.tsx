@@ -22,7 +22,7 @@ const HomeScreen = () => {
             <TouchableOpacity /*onPress={toggleDrawer}*/>
               <Feather name="menu" size={iconSizes.medium} color = {colors.iconPrimary} />
             </TouchableOpacity>
-            <TouchableOpacity onPress={toggleAppTheme}> 
+            <TouchableOpacity onPress={() => toggleAppTheme}> 
               <Feather name="search" size={iconSizes.medium} color={colors.iconPrimary} />
             </TouchableOpacity>
         </View>
